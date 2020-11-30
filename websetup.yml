@@ -1,0 +1,35 @@
+---
+- hosts: webservers
+  vars:
+    - docroot: "/var/www/ishan"
+	- portnum: 81
+  tasks:
+    - name: httpd install(ed)
+	  package:
+	    name: "httpd"
+		state: present
+	- name: create document root directory
+	  file:
+	    path: {{ docroot }}
+		state: directory
+        owner: "apache"
+	- name: copy webpages
+	  copy:
+	    src: "/webpages/"
+		dest:  {{ docroot }}
+	- name: httpd configuration
+	  template:
+	    src: "httpd.j2"
+		dest: "/etc/httpd/conf.d/ishan.conf"
+	  notify:
+	  - Restart Httpd
+	- name: start or check running httpd
+	  service:
+	    name: httpd
+		state: started
+		enabled: yes
+  handlers:
+    - name: Restart Httpd
+	  service:
+	    name: httpd
+		state: restarted
