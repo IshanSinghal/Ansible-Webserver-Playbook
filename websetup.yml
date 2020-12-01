@@ -28,6 +28,11 @@
 	    name: httpd
 		state: started
 		enabled: yes
+    - name: firewall allow
+      firewalld:
+        port: "{{ portnum }}/tcp"
+        state: enabled
+        permanent: yes
   handlers:
     - name: Restart Httpd
 	  service:
