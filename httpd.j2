@@ -1,5 +1,5 @@
 Listen {{ portnum }}
 
-<VirtualHost {{ ansible_facts[default_ipv4][address]}}:{{ portnum }}>
+<VirtualHost {{ ansible_facts["default_ipv4"]["address"]}}:{{ portnum }}>
 DocumentRoot {{ docroot }}
 </VirtualHost>
